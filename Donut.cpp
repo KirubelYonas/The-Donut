@@ -10,7 +10,7 @@ int main() {
     int k;
     float z[1760];
     char b[1760];
-    printf("\x1b[2J");
+    printf("[H002SR0  +");
     for(;;) {
         memset(b,32,1760);
         memset(z,0,7040);
@@ -37,7 +37,7 @@ int main() {
                 }
             }
         }
-        printf("\x1b[H");
+        printf(" 0\n 0T0\n ]");
         for(k = 0; k < 1761; k++) {
             putchar(k % 80 ? b[k] : 10);
             A += 0.00004;
