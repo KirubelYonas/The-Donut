@@ -1,0 +1,54 @@
+#include <iostream>
+#include <windows.h>
+#include <math.h>
+#include <cstring>
+
+void gotoxy(SHORT x, SHORT y) {
+    static HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD c = { x, y };
+    SetConsoleCursorPosition(h, c);
+}
+
+int main() {
+    float A = 0, B = 0, i, j;
+    int k;
+    float z[1760] = {0};
+    char b[1760] = {0};
+
+    std::cout << "\x1b[2J";
+    while (true) {
+        memset(b, ' ', sizeof(b));
+        memset(z, 0, sizeof(z));
+        
+        for (j = 0; j < 6.28; j += 0.07) {
+            for (i = 0; i < 6.28; i += 0.02) {
+                float c = sin(i), d = cos(j), e = sin(A), f = sin(j);
+                float g = cos(A), h = d + 2;
+                float D = 1 / (c * h * e + f * g + 5);
+                float l = cos(i), m = cos(B), n = sin(B);
+                float t = c * h * g - f * e;
+
+                int x = 40 + static_cast<int>(30 * D * (l * h * m - t * n));
+                int y = 12 + static_cast<int>(15 * D * (l * h * n + t * m));
+                int o = x + 80 * y;
+                int N = static_cast<int>(8 * ((f * e - c * d * g) * m - c * d * e - f * g - l * d * n));
+
+                if (y < 22 && y > 0 && x > 0 && x < 80 && D > z[o]) {
+                    z[o] = D;
+                    b[o] = ".,-~:;=!*#$@"[N > 0 ? N : 0];
+                }
+            }
+        }
+
+        std::cout << "\x1b[H";
+        for (k = 0; k < 1761; k++) {
+            putchar(k % 80 ? b[k] : '\n');
+            A += 0.00004;
+            B += 0.00002;
+        }
+
+        gotoxy(0, 0);
+    }
+
+    return 0;
+}
